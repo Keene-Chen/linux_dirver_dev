@@ -1,0 +1,537 @@
+# * @file    : .clang-format
+# * @author  : KeeneChen
+# * @date    : 2022.11.24-16:17:54
+# * @details : custom clang-format file
+
+---
+
+# 1 基础风格,可继承基础风格自行修改
+# enum: [Chromium,Google,LLVM,Mozilla,WebKit,Microsoft,GNU,InheritParentConfig,chromium,google,llvm,mozilla,webkit,microsoft,gnu,inheritparentconfig]
+# BasedOnStyle: LLVM
+
+# 2 访问说明符(public、private等)的偏移
+# clang-format 3.3
+# enum: [true,false]
+AccessModifierOffset: -4
+
+# 3 打开括号(开圆括号、开尖括号、开方括号)后的对齐
+# clang-format 3.8
+# enum: [Align,DontAlign,AlwaysBreak,BlockIndent]
+AlignAfterOpenBracket: Align
+
+# 4 结构体中的数组对齐方式
+# clang-format 13
+# enum: [None,Left,Right]
+AlignArrayOfStructures: None
+
+# 5 对齐连续宏
+# clang-format 9
+# enum: [None,Consecutive,AcrossEmptyLines,AcrossComments,AcrossEmptyLinesAndComments]
+AlignConsecutiveMacros: Consecutive
+
+# 6 连续赋值时,对齐所有等号
+# clang-format 3.8
+# enum: [None,Consecutive,AcrossEmptyLines,AcrossComments,AcrossEmptyLinesAndComments]
+AlignConsecutiveAssignments: Consecutive
+
+# 7 对齐连续位字段的样式
+# clang-format 11
+# enum: [None,Consecutive,AcrossEmptyLines,AcrossComments,AcrossEmptyLinesAndComments]
+AlignConsecutiveBitFields: None
+
+# 8 连续声明时,对齐所有声明的变量名
+# clang-format 3.8
+# enum: [None,Consecutive,AcrossEmptyLines,AcrossComments,AcrossEmptyLinesAndComments]
+AlignConsecutiveDeclarations: None
+
+# 9 用于在转义换行符中对齐反斜杠的选项
+# clang-format 5
+# enum: [Left,Right,DontAlign]
+AlignEscapedNewlines: Left
+
+# 10 水平对齐二元和三元表达式的操作数
+# clang-format 3.5
+# enum: [Align,DontAlign,AlignAfterOperator]
+AlignOperands: Align
+
+# 11 对齐连续的尾随的注释
+# clang-format 3.7
+# enum: [true,false]
+AlignTrailingComments: true
+
+# 12 函数参数对齐
+# clang-format 9
+# enum: [true,false]
+AllowAllArgumentsOnNextLine: false
+
+# 13 已弃用
+# clang-format 9
+# enum: [true,false]
+AllowAllConstructorInitializersOnNextLine: false
+
+# 14 允许函数声明的所有参数在放在下一行
+# clang-format 3.3
+# enum: [true,false]
+AllowAllParametersOfDeclarationOnNextLine: true
+
+# 15 允许在单行上使用短枚举
+# clang-format 11
+# enum: [true,false]
+AllowShortEnumsOnASingleLine: false
+
+# 16 允许短的块放在同一行
+# clang-format 3.5
+# enum: [Never,Empty,Always]
+AllowShortBlocksOnASingleLine: Never
+
+# 17 允许短的case标签放在同一行
+# clang-format 3.6
+# enum: [true,false]
+AllowShortCaseLabelsOnASingleLine: false
+
+# 18 允许短的函数放在同一行
+# clang-format 3.5
+# enum: [All,None,Inline,Empty,InlineOnly]
+AllowShortFunctionsOnASingleLine: Empty
+
+# 19 Lambda表达式放在同一行
+# clang-format 9
+# enum: [None,Empty,Inline,All]
+AllowShortLambdasOnASingleLine: None
+
+# 20 允许短的if语句保持在同一行
+# clang-format 9
+# enum: [AllIfsAndElse,Never,WithoutElse,OnlyFirstIf]
+AllowShortIfStatementsOnASingleLine: Never
+
+# 21 允许短的循环保持在同一行
+# clang-format 3.7
+# enum: [true,false]
+AllowShortLoopsOnASingleLine: false
+
+# 22 总是在定义返回类型后换行(deprecated)
+# clang-format 3.7
+# enum: [None,All,TopLevel]
+AlwaysBreakAfterDefinitionReturnType: None
+
+# 23 总是在返回类型后换行
+# clang-format 3.8
+# enum: [None,All,TopLevel,AllDefinitions,TopLevelDefinitions]
+AlwaysBreakAfterReturnType: None
+
+# 24 总是在多行string字面量前换行
+# clang-format 3.4
+# enum: [true,false]
+AlwaysBreakBeforeMultilineStrings: false
+
+# 25 总是在template声明后换行
+# clang-format 7
+# enum: [Yes,No,MultiLine]
+AlwaysBreakTemplateDeclarations: No
+
+# ! 26 属性宏
+# clang-format 12
+# enum: [true,false]
+# AttributeMacros: 
+
+# 27 false表示函数实参要么都在同一行,要么都各自一行
+# clang-format 3.7
+# enum: [true,false]
+BinPackArguments: true
+
+# 28 false表示所有形参要么都在同一行,要么都各自一行
+# clang-format 3.7
+# enum: [true,false]
+BinPackParameters: true
+
+# * 29 位字段冒号间距
+# clang-format 12
+# enum: [Both,None,Before,After]
+BitFieldColonSpacing: Both
+
+# * 30 大括号换行,只有当BreakBeforeBraces设置为Custom时才有效
+# clang-format 3.8
+BraceWrapping: 
+  # class定义后面
+  AfterClass: false
+  # 控制语句后面
+  AfterControlStatement: Never
+  # enum定义后面
+  AfterEnum: false
+  # 函数定义后面
+  AfterFunction: true
+  # 命名空间定义后面
+  AfterNamespace: false
+  # ObjC定义后面
+  AfterObjCDeclaration: false
+  # struct定义后面
+  AfterStruct: false
+  # union定义后面
+  AfterUnion: false
+  # catch之前
+  BeforeCatch: true
+  # else之前
+  BeforeElse: true
+  # 缩进大括号
+  IndentBraces: false
+
+# 32 在二元运算符前换行
+# clang-format 3.6
+# enum: [None,NonAssignment,All]
+BreakBeforeBinaryOperators: NonAssignment
+
+# 33 在大括号前换行
+# clang-format 3.7
+# enum: [Attach,Linux,Mozilla,Stroustrup,Allman,Whitesmiths,GNU,WebKit,Custom]
+BreakBeforeBraces: Custom
+
+# 37 在构造函数的初始化列表的逗号前换行
+# clang-format 5
+# enum: [BeforeColon,BeforeComma,AfterColon]
+BreakConstructorInitializers: AfterColon
+
+# 38 在继承列表的逗号和冒号前换行
+# clang-format 7
+# enum: [BeforeColon,BeforeComma,AfterColon,AfterComma]
+BreakInheritanceList: AfterComma
+
+# ! 39 允许在格式化时断开字符串文本
+# clang-format 3.9
+# enum: [true,false]
+# BreakStringLiterals: false
+
+# 40 在构造函数的初始化列表的逗号前换行
+# clang-format 3.8
+# enum: [true,false]
+BreakConstructorInitializersBeforeComma: false
+
+# 41 每行字符的限制,0表示没有限制
+# clang-format 3.7
+ColumnLimit: 100
+
+# 42 描述具有特殊意义的注释的正则表达式,它不应该被分割为多行或以其它方式改变
+# clang-format 3.7
+CommentPragmas: "^ IWYU pragma:"
+
+# 44 构造函数的初始化列表要么都在同一行,要么都各自一行
+# clang-format 3.7
+# enum: [true,false]
+ConstructorInitializerAllOnOneLineOrOnePerLine: false
+
+# 45 构造函数的初始化列表的缩进宽度
+# clang-format 3.7
+ConstructorInitializerIndentWidth: 4
+
+# 46 延续的行的缩进宽度
+# clang-format 3.7
+ContinuationIndentWidth: 4
+
+# 47 去除C++11的列表初始化的大括号{后和}前的空格
+# clang-format 3.4
+# enum: [true,false]
+Cpp11BracedListStyle: false
+
+# 49 继承最常用的指针和引用的对齐方式
+# clang-format 3.7
+# enum: [true,false]
+DerivePointerAlignment: false
+
+# 50 关闭格式化
+# clang-format 3.7
+# enum: [true,false]
+DisableFormat: false
+
+# 51 定义何时在访问修饰符后放置空行 
+# clang-format 13
+# enum: [Never,Leave,Always]
+EmptyLineAfterAccessModifier: Never
+
+# 52 配置处理两个访问修饰符之间的空行数
+# clang-format 12
+# enum: [LogicalBlock,Never,Leave,Always]
+EmptyLineBeforeAccessModifier: Never
+
+# 53 自动检测函数的调用和定义是否被格式为每行一个参数
+# clang-format 3.7
+# enum: [true,false]
+ExperimentalAutoDetectBinPacking: false
+
+# 55 需要被解读为foreach循环而不是函数调用的宏
+# clang-format 3.7
+ForEachMacros: [foreach, Q_FOREACH,BOOST_FOREACH]
+
+# ! 56 应解释为条件而不是函数调用的宏向量
+# clang-format 13
+# IfMacros: 
+
+# ! 57 根据值，可以将多个块排序为一个块，并根据类别进行划分
+# clang-format 7
+# enum: [Regroup,Preserve,Merge]
+# IncludeBlocks: 
+
+# 58 对#include进行排序,匹配了某正则表达式的#include拥有对应的优先级,匹配不到的则默认优先级为INT_MAX(优先级越小排序越靠前),
+# 可以定义负数优先级从而保证某些#include永远在最前面
+# clang-format 7
+IncludeCategories: 
+  - Regex: '^"(llvm|llvm-c|clang|clang-c)/'
+    Priority: 2
+  - Regex: '^(<|"(gtest|isl|json)/)'
+    Priority: 3
+  - Regex: ".*"
+    Priority: 1
+
+# ! 59 未知
+# clang-format 7
+# IncludeIsMainRegex: 
+
+# ! 60 未知
+# clang-format 7
+# IncludeIsMainSourceRegex: 
+
+# ! 61 指定访问修饰符是否应具有自己的缩进级别
+# clang-format 13
+# IndentAccessModifiers: 
+
+# 62 缩进case标签
+# clang-format 11
+# enum: [true,false]
+IndentCaseBlocks: false
+
+# 63 缩进case标签
+# clang-format 3.3
+# enum: [true,false]
+IndentCaseLabels: false 
+
+# 64 缩进外部块
+# clang-format 11
+# enum: [AfterExternBlock,NoIndent,Indent]
+IndentExternBlock: NoIndent
+
+# 65 缩进goto块
+# clang-format 10
+# enum: [true,false]
+IndentGotoLabels: false
+
+# 66 缩进预处理器指令缩进样式
+# clang-format 6
+# enum: [None,AfterHash,BeforeHash]
+IndentPPDirectives: None
+
+# 68 缩进模板中的 require 子句
+# clang-format 12-14
+# enum: [true,false]
+IndentRequires: false
+
+# * 69 缩进宽度
+# clang-format 3.7
+# The number of columns to use for indentation. 
+IndentWidth: 4
+
+# 70 函数返回类型换行时,缩进函数声明或函数定义的函数名
+# clang-format 3.7
+# enum: [true,false]
+IndentWrappedFunctionNames: false
+
+# 72 插入尾随逗号
+# clang-fromat 11
+# enum: [None,Wrapped]
+InsertTrailingCommas: None
+
+# 76 保留在块开始处的空行
+# clang-format 3.7
+# If true, the empty line at the start of blocks is kept. 
+# enum: [true,false]
+KeepEmptyLinesAtTheStartOfBlocks: true
+
+# 77 缩进Lambda语句块
+# clang-format 13
+# enum: [Signature,OuterScope]
+LambdaBodyIndentation: Signature
+
+# * 78 语言格式
+# clang-format 3.5
+# enum: [None,Cpp,ObjC,CSharp,Java,JavaScript,Json,Proto,TableGen,TextProto]
+Language: Cpp
+
+# 79 开始一个块的宏的正则表达式
+# clang-format 3.7
+MacroBlockBegin: ""
+
+# 80 结束一个块的宏的正则表达式
+# clang-format 3.7
+MacroBlockEnd: ""
+
+# * 81 连续空行的最大数量
+# clang-format 3.7
+MaxEmptyLinesToKeep: 1
+
+# 82 命名空间的缩进
+# clnag-format 3.7
+# enum: [None,Inner,All]
+NamespaceIndentation: Inner
+
+# ! 83 用于打开命名空间块的宏向量
+# clnag-format 9
+# NamespaceMacros: 
+
+# * 89 用于预处理器语句缩进的列数
+# clang-format 13
+# PPIndentWidth: -1
+
+# 90 要使用的包构造函数初始值设定项样式
+# clang-format 14
+# enum: [Never,BinPack,CurrentLine,NextLine]
+PackConstructorInitializers: Never
+
+# 98 对于每个在行字符数限制之外的字符的penalty
+# clang-format 3.7
+# enum: [true,false]
+PenaltyExcessCharacter: 1000000
+
+# 100 将函数的返回类型放到它自己的行的penalty
+# clang-format 3.7
+# enum: [true,false]
+PenaltyReturnTypeOnItsOwnLine: 60
+
+# 101 指针和引用的对齐
+# clang-format 3.7
+# enum: [Left,Right,Middle]
+PointerAlignment: Left
+
+# 105 引用对齐
+# clang-format 13
+# enum: [Pointer,Left,Right,Middle]
+ReferenceAlignment: Left
+
+# 106 允许重新排版注释
+# clang-format 4
+# enum: [true,false]
+ReflowComments: true
+
+# 110 短命名空间行
+# clang-format 13
+ShortNamespaceLines: 1
+
+# * 111 允许排序#include
+# clang-format 4
+# enum: [CaseSensitive,CaseInsensitive,Never]
+SortIncludes: CaseSensitive
+
+# 114 在C风格类型转换后添加空格
+# clang-format 3.5
+# enum: [true,false]
+SpaceAfterCStyleCast: false
+
+# 116 “模板”关键字后插入一个空格
+# clang-format 4
+# enum: [true,false]
+SpaceAfterTemplateKeyword: false
+
+# * 117 定义在哪些情况下在指针限定符之前或之后放置空格
+# clang-format 12
+# enum: [Default,Before,After,Both]
+SpaceAroundPointerQualifiers: Default
+
+# 118 在赋值运算符之前添加空格
+# clang-format 3.7
+# enum: [true,false]
+SpaceBeforeAssignmentOperators: true
+
+# 119 将在大小写冒号之前删除空格
+# clang-format 12
+# enum: [true,false]
+SpaceBeforeCaseColon: false
+
+# 120 空格之前Cpp11大括号列表
+# clang-format 7
+# enum: [true,false]
+SpaceBeforeCpp11BracedList: false
+
+# 121 将在构造函数初始值设定项冒号之前删除空格
+# clang-format 7
+# enum: [true,false]
+SpaceBeforeCtorInitializerColon: false
+
+# 122 则将在继承冒号之前删除空格
+# clang-format 7
+# enum: [true,false]
+SpaceBeforeInheritanceColon: false
+
+# 123 开圆括号之前添加一个空格
+# clang-format 3.5
+# enum: [ControlStatements,Never,ControlStatementsExceptControlMacros,NonEmptyParentheses,Always,Custom]
+SpaceBeforeParens: ControlStatements
+
+# ! 124 控制括号前的单个空格
+# clang-format 14
+# enum: [true,false]
+# SpaceBeforeParensOptions: 
+
+# 128 在空的圆括号中添加空格
+# clang-format 3.7
+# enum: [true,false]
+SpaceInEmptyParentheses: false
+
+# * 129 在尾随的评论前添加的空格数(只适用于//)
+# clang-format 3.7
+SpacesBeforeTrailingComments: 1
+
+# 130 在尖括号的<后和>前添加空格
+# clang-format 3.4
+# enum: [Never,Always,Leave]
+SpacesInAngles: Never
+
+# 131 在C风格类型转换的括号中添加空格
+# clang-format 3.7
+# enum: [true,false]
+SpacesInCStyleCastParentheses: false
+
+# 132 在条件语句的括号中添加空格
+# clang-format 10
+# enum: [true,false]
+SpacesInConditionalStatement: false
+
+# * 133 在容器(数组)中插入空格
+# clang-format 3.7
+# enum: [true,false]
+SpacesInContainerLiterals: false
+
+# ! 134 行注释开头允许多少个空格
+# clang-format 13
+# SpacesInLineCommentPrefix: 
+
+# 135 在圆括号的(后和)前添加空格
+# clang-format 3.7
+# enum: [true,false]
+SpacesInParentheses: false
+
+# 136 在方括号的[后和]前添加空格,lamda表达式和未指明大小的数组的声明不受影响
+# clang-format 3.7
+# enum: [true,false]
+SpacesInSquareBrackets: false
+
+# 137 C++标准
+# clang-format 3.7
+# enum: [Auto,Latest,c++03,c++11,c++14,c++17,c++20]
+Standard: c++11
+
+# 140 tab宽度
+# clang-format 3.7
+# The number of columns used for tab stops. 
+# enum: [true,false]
+TabWidth: 4
+
+# ! 141 为类型声明而不是函数调用的宏向量
+# clang-format 9
+# enum: [true,false]
+# TypenameMacros: 
+
+# 142 
+# clang-format 10
+# enum: [true,false]
+UseCRLF: false
+
+# * 143 使用tab字符
+# clang-format 3.7
+# enum: [Never,ForIndentation,ForContinuationAndIndentation,AlignWithSpaces,Always]
+UseTab: Never
