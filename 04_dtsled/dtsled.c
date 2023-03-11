@@ -141,12 +141,11 @@
  *
  *? 4.其他常用的of函数
  ** int of_device_is_compatible(const struct device_node *device,const char *compat)
- * @brief 用于查看节点的 compatible 属性是否有包含 compat 指定的字
-符串
+ * @brief 用于查看节点的 compatible 属性是否有包含 compat 指定的字符串
  * @param device 设备节点
  * @param compat 要查看的字符串
- * @return 0,节点的 compatible 属性中不包含 compat 指定的字符串； 正数,节点的 compatible属性中包含
-compat 指定的字符串
+ * @return 0,节点的 compatible 属性中不包含 compat 指定的字符串； 正数,节点的
+ *compatible属性中包含compat 指定的字符串
  *
  ** const __be32 *of_get_address(struct device_node *dev,
  ** int index,u64 *size,unsigned int *flags)
@@ -271,7 +270,6 @@ static int __init dtsled_init(void)
     int rc          = 0;
     const char* str = NULL;
     u32 regdata[10] = { 0 };
-    int i           = 0;
     int val         = 0;
 
     /* 获取设备树属性 */
@@ -308,7 +306,7 @@ static int __init dtsled_init(void)
     }
     else {
         printk("regdata:\r\n");
-        for (i = 0; i < 10; i++) {
+        for (int i = 0; i < 10; i++) {
             printk("%#x ", regdata[i]);
         }
         printk("\r\n");

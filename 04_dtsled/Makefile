@@ -5,6 +5,7 @@
 KERNELDIR    := /home/keenechen/IMX6ULL/linux_system_porting/alientek/linux-imx-rel_imx_4.1.15_2.1.0_ga_alientek
 CURRENT_PATH := $(shell pwd)
 obj-m        := dtsled.o
+ccflags-y    := -std=gnu99
 
 build: kernel_modules
 
