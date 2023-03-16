@@ -108,7 +108,7 @@ static int __init gpioled_init(void)
         gpioled.minor = MINOR(gpioled.devid);
     }
     if (rc < 0) {
-        printk("gpioled chrdev region error!\r\n");
+        printk("gpioled chrdev region error\r\n");
         goto fail_devid;
     }
     printk("major=%d,minor=%d\r\n", gpioled.major, gpioled.minor);
@@ -119,6 +119,7 @@ static int __init gpioled_init(void)
     rc = cdev_add(&gpioled.cdev, gpioled.devid, GPIOLED_COUNT);
     if (rc < 0) {
         rc = -EINVAL;
+        printk("gpioled cdev failed\r\n");
         goto fail_cdev;
     }
 
@@ -126,6 +127,7 @@ static int __init gpioled_init(void)
     gpioled.class = class_create(THIS_MODULE, GPIOLED_NAME);
     if (IS_ERR(gpioled.class)) {
         rc = PTR_ERR(gpioled.class);
+        printk("gpioled class create failed\r\n");
         goto fail_class;
     }
 
@@ -133,6 +135,7 @@ static int __init gpioled_init(void)
     gpioled.device = device_create(gpioled.class, NULL, gpioled.devid, NULL, GPIOLED_NAME);
     if (IS_ERR(gpioled.device)) {
         rc = PTR_ERR(gpioled.device);
+        printk("gpioled device create failed\r\n");
         goto fail_device;
     }
     printk("gpioled dirver init\r\n");
@@ -142,6 +145,7 @@ static int __init gpioled_init(void)
     gpioled.node = of_find_node_by_path("/gpioled");
     if (gpioled.node == NULL) {
         rc = -EINVAL;
+        printk("find node failed\r\n");
         goto fail_node;
     }
 
@@ -162,7 +166,7 @@ static int __init gpioled_init(void)
         goto fail_gpio_req;
     }
 
-    // 4.使用IO,设置为输出
+    // 4.使用IO,设置为输出即关灯(低电平点亮)
     rc = gpio_direction_output(gpioled.led_gpio, 1);
     if (rc) {
         goto fail_gpio_out;
@@ -193,20 +197,15 @@ static void __exit gpioled_exit(void)
 {
     // 1.关灯
     gpio_set_value(gpioled.led_gpio, 1);
-
-    // 6.释放IO
+    // 2.释放IO
     gpio_free(gpioled.led_gpio);
-
-    // 2.删除字符设备
+    // 3.删除字符设备
     cdev_del(&gpioled.cdev);
-
-    // 3.注销设备号
+    // 4.注销设备号
     unregister_chrdev_region(gpioled.devid, GPIOLED_COUNT);
-
-    // 4.销毁设备节点
+    // 5.销毁设备节点
     device_destroy(gpioled.class, gpioled.devid);
-
-    // 5.销毁设备的逻辑类
+    // 6.销毁设备的逻辑类
     class_destroy(gpioled.class);
 
     printk("gpioled dirver exit\r\n");
