@@ -21,8 +21,8 @@ clean:
 #>>> custom targets >>>
 GCC          ?= arm-linux-gnueabihf-gcc
 ROOTFS_PATH  := ~/Linux/nfs/kc_rootfs/lib/modules/4.1.15
-SRCFILE      := beep_app.c
-OBJFILE      := beep_app
+SRCFILE      := $(patsubst %_driver,%_app.c, $(basename $(obj-m)))
+OBJFILE      := $(patsubst %_driver,%_app, $(basename $(obj-m)))
 
 app: kernel_modules
 	$(GCC) $(SRCFILE) -o $(OBJFILE)
