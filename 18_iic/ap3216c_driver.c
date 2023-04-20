@@ -6,6 +6,10 @@
  */
 
 /**
+ * i2c1
+ * MX6UL_PAD_UART4_TX_DATA__I2C1_SCL 43
+ * MX6UL_PAD_UART4_RX_DATA__I2C1_SDA 42
+ *
  ** int i2c_transfer(struct i2c_adapter *adap,struct i2c_msg *msgs,int num)
  * @brief I2C 设备数据收发函数
  * @param adap 所使用的 I2C 适配器, i2c_client 会保存其对应的 i2c_adapter
@@ -81,9 +85,9 @@ static int ap3216c_read_regs(struct ap3216c_dev* dev, u8 reg, void* val, int len
     msg[1].addr  = client->addr; // i2c从机地址
     msg[1].flags = I2C_M_RD;     // 读取数据
     msg[1].buf   = val;          // 待发送数据
-    msg[1].len   = 1;            // 待发送数据长度
+    msg[1].len   = len;            // 待发送数据长度
 
-    return i2c_transfer(client->adapter, msg, len);
+    return i2c_transfer(client->adapter, msg, 2);
 }
 
 /* 写入 AP3216C 的 N 个寄存器值 */
@@ -103,7 +107,7 @@ static int ap3216c_write_regs(struct ap3216c_dev* dev, u8 reg, void* buf, int le
     msg.buf   = data;         // 待发送数据
     msg.len   = len + 1;      // 待发送数据长度:寄存器地址+实际数据
 
-    return i2c_transfer(client->adapter, &msg, len);
+    return i2c_transfer(client->adapter, &msg, 1);
 }
 
 /* 读取 AP3216C 的一个寄存器值 */
