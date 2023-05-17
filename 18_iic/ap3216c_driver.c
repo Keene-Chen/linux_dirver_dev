@@ -161,7 +161,7 @@ int ap3216c_open(struct inode* inode, struct file* filp)
     ap3216c_write_reg(&ap3216c, AP3216C_SYSTEMCONG, 0X3); /* 复位 */
 
     value = ap3216c_read_reg(&ap3216c, AP3216C_SYSTEMCONG);
-    printk("AP3216C_SYSTEMCONG = %#x\r\n", value);
+    // printk("AP3216C_SYSTEMCONG = %#x\r\n", value);
 
     return 0;
 }

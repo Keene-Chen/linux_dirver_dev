@@ -30,6 +30,7 @@
  *
  */
 
+#include <linux/atomic.h>
 #include <linux/cdev.h>
 #include <linux/device.h>
 #include <linux/gpio.h>
@@ -57,6 +58,7 @@ struct gpioled_dev {
     struct device* device;    // 设备
     struct device_node* node; // 设备节点
     int led_gpio;             // led所使用的GPIO编号
+    atomic_t value;           // 状态值
 } gpioled;
 
 static char strshow[2] = { 0 }; // 需要echo多个字节的话记得设置大一点，我这里只装一个字节
@@ -94,6 +96,17 @@ static int gpioled_open(struct inode* inode, struct file* filp)
     return 0;
 }
 
+ssize_t gpioled_read(struct file* filp, char __user* buf, size_t count, loff_t* offt)
+{
+    int rc;
+    unsigned char data[1];
+    data[0] = atomic_read(&gpioled.value);
+
+    rc = copy_to_user(buf, data, sizeof(data));
+
+    return 0;
+}
+
 static ssize_t gpioled_write(struct file* filp, const char __user* buf, size_t count, loff_t* offt)
 {
     int ret        = 0;
@@ -102,13 +115,14 @@ static ssize_t gpioled_write(struct file* filp, const char __user* buf, size_t c
     // 获取私有数据
     struct gpioled_dev* dev = (struct gpioled_dev*)filp->private_data;
 
-    ret = copy_from_user(data_buf, buf, count);
+    ret = copy_from_user(&gpioled.value, buf, count);
     if (ret < 0) {
         printk("kernel write failed\r\n");
         return -EFAULT;
     }
 
     // 判断灯的状态
+    data_buf[0] = atomic_read(&gpioled.value);
     if (data_buf[0] == LED_ON) {
         gpio_set_value(dev->led_gpio, 0); // 打开LED灯
     }
@@ -123,6 +137,7 @@ static ssize_t gpioled_write(struct file* filp, const char __user* buf, size_t c
 static const struct file_operations gpioled_fops = {
     .owner = THIS_MODULE,
     .open  = gpioled_open,
+    .read  = gpioled_read,
     .write = gpioled_write,
 };
 
@@ -214,12 +229,15 @@ static int led_probe(struct platform_device* dev)
     }
 
     // 5.输出低电平,点亮LED
-    gpio_set_value(gpioled.led_gpio, 0);
+    // gpio_set_value(gpioled.led_gpio, 0);
 
     // 6.创建驱动接口
     if (sysfs_create_file((&gpioled.device->kobj), &dev_attr_gpioled.attr)) {
         goto fail_node;
     }
+
+    // 初始化原子变量
+    atomic_set(&gpioled.value, 0);
 
     printk("led probe\r\n");
     return rc;
@@ -244,7 +262,7 @@ fail_devid:
 static int led_remove(struct platform_device* dev)
 {
     // 1.关灯
-    gpio_set_value(gpioled.led_gpio, 1);
+    // gpio_set_value(gpioled.led_gpio, 1);
 
     // 2.释放IO
     gpio_free(gpioled.led_gpio);

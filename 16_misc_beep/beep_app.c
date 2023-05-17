@@ -5,6 +5,7 @@
  * @details : led_app
  */
 
+#include "linux/types.h"
 #include <ctype.h>
 #include <fcntl.h>
 #include <stdio.h>

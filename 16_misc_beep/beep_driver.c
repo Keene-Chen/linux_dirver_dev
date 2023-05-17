@@ -30,6 +30,7 @@
  * @return 负数,失败; 0,成功
  */
 
+#include <linux/atomic.h>
 #include <linux/cdev.h>
 #include <linux/device.h>
 #include <linux/fs.h>
@@ -57,6 +58,7 @@ struct beep_misc_dev {
     struct device* device;    // 设备
     struct device_node* node; // 设备节点
     int beep_gpio;            // beep所使用的GPIO编号
+    atomic_t value;           // 状态值
 } beep_misc;
 
 int beep_misc_open(struct inode* inode, struct file* filp)
@@ -67,34 +69,39 @@ int beep_misc_open(struct inode* inode, struct file* filp)
 
 int beep_misc_release(struct inode* inode, struct file* filp)
 {
-    struct beep_misc_dev* dev = filp->private_data; // 取出私有数据
+    // struct beep_misc_dev* dev = filp->private_data; // 取出私有数据
 
-    printk("MAJOR: %d", dev->major);
-    printk("MINOR: %d", dev->minor);
-    printk("BEEP-GPIO: %d", dev->beep_gpio);
+    // printk("MAJOR: %d", dev->major);
+    // printk("MINOR: %d", dev->minor);
+    // printk("BEEP-GPIO: %d", dev->beep_gpio);
 
     return 0;
 }
 
 ssize_t beep_misc_read(struct file* filp, char __user* buf, size_t count, loff_t* offt)
 {
+    int rc;
+    unsigned char data[1];
+    data[0] = atomic_read(&beep_misc.value);
+
+    rc = copy_to_user(buf, data, sizeof(data));
+
     return 0;
 }
 
 ssize_t beep_misc_write(struct file* filp, const char __user* buf, size_t count, loff_t* offt)
 {
     int rc;
-    unsigned char databuf[1];
     unsigned char beepstat;
     struct beep_misc_dev* dev = filp->private_data;
 
-    rc = copy_from_user(databuf, buf, count);
+    rc = copy_from_user(&dev->value, buf, count);
     if (rc < 0) {
         printk("kernel write failed!\r\n");
         return -EFAULT;
     }
 
-    beepstat = databuf[0]; // 获取状态值
+    beepstat = atomic_read(&dev->value); // 获取状态值
     if (beepstat == BEEP_ON) {
         gpio_set_value(dev->beep_gpio, 0); // 打开蜂鸣器
     }
@@ -158,6 +165,9 @@ static int beep_misc_probe(struct platform_device* pdev)
     if (rc < 0) {
         printk("can't set gpio!\r\n");
     }
+
+    // 初始化原子变量
+    atomic_set(&beep_misc.value, 0);
 
     return 0;
 }
