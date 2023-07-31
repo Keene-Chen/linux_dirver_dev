@@ -35,6 +35,7 @@ struct blueled_dev {
     int led_gpio;             // led所使用的GPIO编号
     atomic_t value;           // 状态值
 } blueled;
+
 static int blueled_open(struct inode* inode, struct file* filp)
 {
     // 设置私有数据
